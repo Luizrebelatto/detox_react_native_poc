@@ -14,13 +14,17 @@ interface Item {
   description: string;
 }
 
+interface HomeScreenProps {
+  navigation: any;
+}
+
 const mockItems: Item[] = Array.from({length: 10}, (_, index) => ({
   id: index + 1,
   title: `Item ${index + 1}`,
   description: `Description for item ${index + 1}`,
 }));
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredItems = useMemo(() => {
@@ -31,11 +35,17 @@ const HomeScreen: React.FC = () => {
     );
   }, [searchQuery]);
 
+  const handleItemPress = (item: Item) => {
+    navigation.navigate('ItemDetails', {item});
+  };
+
   const renderItem = ({item}: {item: Item}) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => handleItemPress(item)}>
       <Text style={styles.itemTitle}>{item.title}</Text>
       <Text style={styles.itemDescription}>{item.description}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -62,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    paddingTop: 50,
   },
   searchContainer: {
     padding: 15,

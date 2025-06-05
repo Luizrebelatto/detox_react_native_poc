@@ -17,9 +17,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Simple validation
     if (email && password) {
-      // In a real app, you would validate credentials here
       navigation.replace('Home');
     } else {
       Alert.alert('Error', 'Please fill in all fields');
